@@ -1,8 +1,9 @@
 stresstest:
-  concurrency: 100                                    # 并发数
-  totalNumber: 1                                      # 请求数(单个并发/协程)
+  concurrency: 1                                    # 并发数
+  totalNumber: 1                                     # 请求数(单个并发/协程)
   keepalive:   true                                     # 是否保持长连接
-  url: ws://xxxxxxxxxxx:3000          # 压测地址
+  socket_keep_alive:   true                              # 是否开启sccket级别的keepavlie
+  url: ws://xxxxxxxxxxx:3000          # 压测地址              # 国际版日本
   headers:
     Sec-WebSocket-Accept: 7z8Pee3DmGdb5WXsYNuzEeUY52I
     Sec-WebSocket-Protocol: text

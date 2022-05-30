@@ -4,6 +4,7 @@ package client
 import (
 	"errors"
 	"fmt"
+	"go-stress-test/conf"
 	"net"
 	"net/url"
 	"strings"
@@ -12,8 +13,7 @@ import (
 )
 
 const (
-	connRetry       = 3 // 建立连接重试次数
-	useTcpKeepAlive = true
+	connRetry = 3 // 建立连接重试次数
 )
 
 // WebSocket webSocket
@@ -76,7 +76,7 @@ func (w *WebSocket) GetConn() (err error) {
 		i    int
 	)
 	for i = 0; i < connRetry; i++ {
-		if useTcpKeepAlive {
+		if conf.SocketKeepAlive {
 			conn, err = websocket.Dial(w.getLink(), "", w.getOrigin())
 		} else {
 			config, _ := websocket.NewConfig(w.getLink(), w.getOrigin())

@@ -23,19 +23,20 @@ func (a *array) Set(s string) error {
 }
 
 var (
-	Concurrency uint64  = 1       // 并发数
-	TotalNumber uint64  = 1       // 请求数(单个并发/协程)
-	DebugStr            = "false" // 是否是debug
-	RequestURL          = ""      // 压测的url 目前支持，http/https ws/wss
-	Path                = ""      // curl文件路径 http接口压测，自定义参数设置
-	Verify              = ""      // Verify 验证方法 在server/verify中 http 支持:statusCode、json webSocket支持:json
-	Headers     array             // 自定义头信息传递给服务器
-	Body        = ""              // HTTP POST方式传送数据
-	MaxCon      = 1               // 单个连接最大请求数
-	Code        = 200             //成功状态码
-	Http2       = false           // 是否开http2.0
-	Keepalive   = false           // 是否开启长连接
-	WriteData   = ""              // 写入的数据
+	Concurrency     uint64  = 1       // 并发数
+	TotalNumber     uint64  = 1       // 请求数(单个并发/协程)
+	DebugStr                = "false" // 是否是debug
+	RequestURL              = ""      // 压测的url 目前支持，http/https ws/wss
+	Path                    = ""      // curl文件路径 http接口压测，自定义参数设置
+	Verify                  = ""      // Verify 验证方法 在server/verify中 http 支持:statusCode、json webSocket支持:json
+	Headers         array             // 自定义头信息传递给服务器
+	Body            = ""              // HTTP POST方式传送数据
+	MaxCon          = 1               // 单个连接最大请求数
+	Code            = 200             //成功状态码
+	Http2           = false           // 是否开http2.0
+	Keepalive       = false           // 是否开启长连接
+	SocketKeepAlive = true            // 是否开启sccket级别的keepavlie
+	WriteData       = ""              // 写入的数据
 )
 
 func init() {
@@ -52,6 +53,7 @@ func init() {
 
 		WriteData = conf.StressTest.WriteData
 		Keepalive = conf.StressTest.KeepAlive
+		SocketKeepAlive = conf.StressTest.SocketKeepAlive
 	}
 	fmt.Println("setting.yaml", conf)
 
@@ -75,12 +77,13 @@ func init() {
 
 type Conf struct {
 	StressTest struct {
-		Concurrency uint64            `yaml:"concurrency"`
-		TotalNumber uint64            `yaml:"totalNumber"`
-		Url         string            `yaml:"url"`
-		Headers     map[string]string `yaml:"headers"`
-		WriteData   string            `yaml:"writeData"`
-		KeepAlive   bool              `yaml:"keepalive"`
+		Concurrency     uint64            `yaml:"concurrency"`
+		TotalNumber     uint64            `yaml:"totalNumber"`
+		Url             string            `yaml:"url"`
+		Headers         map[string]string `yaml:"headers"`
+		WriteData       string            `yaml:"writeData"`
+		KeepAlive       bool              `yaml:"keepalive"`
+		SocketKeepAlive bool              `yaml:"socket_keep_alive"`
 	}
 }
 
