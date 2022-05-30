@@ -12,10 +12,6 @@ import (
 	"golang.org/x/net/websocket"
 )
 
-const (
-	connRetry = 3 // 建立连接重试次数
-)
-
 // WebSocket webSocket
 type WebSocket struct {
 	conn    *websocket.Conn
@@ -75,7 +71,7 @@ func (w *WebSocket) GetConn() (err error) {
 		conn *websocket.Conn
 		i    int
 	)
-	for i = 0; i < connRetry; i++ {
+	for i = 0; i < conf.ConnRetry; i++ {
 		if conf.SocketKeepAlive {
 			conn, err = websocket.Dial(w.getLink(), "", w.getOrigin())
 		} else {
