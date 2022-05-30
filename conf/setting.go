@@ -82,7 +82,7 @@ type Conf struct {
 		Url             string            `yaml:"url"`
 		Headers         map[string]string `yaml:"headers"`
 		WriteData       string            `yaml:"writeData"`
-		KeepAlive       bool              `yaml:"keepalive"`
+		KeepAlive       bool              `yaml:"keep_alive"`
 		SocketKeepAlive bool              `yaml:"socket_keep_alive"`
 	}
 }
