@@ -9,3 +9,4 @@ stresstest:
   keep_alive: true                                     # 是否保持长连接
   socket_keep_alive: true                              # 是否开启sccket级别的keepavlie
   conn_retry: 3                                        # 建立连接重试次数
+  connection_mode: 2                                   # 1:顺序建立长链接 2:并发建立长链接

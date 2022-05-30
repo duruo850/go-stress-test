@@ -3,6 +3,7 @@ package server
 
 import (
 	"fmt"
+	"go-stress-test/conf"
 	"sync"
 	"time"
 
@@ -13,10 +14,6 @@ import (
 	"go-stress-test/server/golink"
 	"go-stress-test/server/statistics"
 	"go-stress-test/server/verify"
-)
-
-const (
-	connectionMode = 2 // 1:顺序建立长链接 2:并发建立长链接
 )
 
 // init 注册验证器
@@ -51,7 +48,7 @@ func Dispose(concurrency, totalNumber uint64, request *model.Request) {
 		case model.FormTypeHTTP:
 			go golink.HTTP(i, ch, totalNumber, &wg, request)
 		case model.FormTypeWebSocket:
-			switch connectionMode {
+			switch conf.ConnectionMode {
 			case 1:
 				// 连接以后再启动协程
 				ws := client.NewWebSocket(request.URL)
@@ -76,7 +73,7 @@ func Dispose(concurrency, totalNumber uint64, request *model.Request) {
 				// 注意:时间间隔太短会出现连接失败的报错 默认连接时长:20毫秒(公网连接)
 				time.Sleep(5 * time.Millisecond)
 			default:
-				data := fmt.Sprintf("不支持的类型:%d", connectionMode)
+				data := fmt.Sprintf("不支持的类型:%d", conf.ConnectionMode)
 				panic(data)
 			}
 		case model.FormTypeGRPC:

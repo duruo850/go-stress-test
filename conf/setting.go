@@ -38,6 +38,7 @@ var (
 	SocketKeepAlive = true            // 是否开启sccket级别的keepavlie
 	ConnRetry       = 3               // 建立连接重试次数
 	WriteData       = ""              // 写入的数据
+	ConnectionMode  = 2               // 1:顺序建立长链接 2:并发建立长链接
 )
 
 func init() {
@@ -55,7 +56,8 @@ func init() {
 		WriteData = conf.StressTest.WriteData
 		Keepalive = conf.StressTest.KeepAlive
 		SocketKeepAlive = conf.StressTest.SocketKeepAlive
-		ConnRetry = conf.StressTest.connRetry
+		ConnRetry = conf.StressTest.ConnRetry
+		ConnectionMode = conf.StressTest.ConnectionMode
 	}
 	fmt.Println("setting.yaml", conf)
 
@@ -86,7 +88,8 @@ type Conf struct {
 		WriteData       string            `yaml:"writeData"`
 		KeepAlive       bool              `yaml:"keep_alive"`
 		SocketKeepAlive bool              `yaml:"socket_keep_alive"`
-		connRetry       int               `yaml:"conn_retry"`
+		ConnRetry       int               `yaml:"conn_retry"`
+		ConnectionMode  int               `yaml:"connection_mode"`
 	}
 }
 
