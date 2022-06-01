@@ -42,8 +42,8 @@ func Dispose(concurrency, totalNumber uint64, request *model.Request) {
 		httplongclinet.CreateLangHttpClient(request)
 	}
 
+	wg.Add(int(concurrency))
 	for i := uint64(0); i < concurrency; i++ {
-		wg.Add(1)
 		switch request.Form {
 		case model.FormTypeHTTP:
 			go golink.HTTP(i, ch, totalNumber, &wg, request)
@@ -70,8 +70,6 @@ func Dispose(concurrency, totalNumber uint64, request *model.Request) {
 					}
 					golink.WebSocket(i, ch, totalNumber, &wg, request, ws)
 				}(i)
-				// 注意:时间间隔太短会出现连接失败的报错 默认连接时长:20毫秒(公网连接)
-				time.Sleep(5 * time.Millisecond)
 			default:
 				data := fmt.Sprintf("不支持的类型:%d", conf.ConnectionMode)
 				panic(data)
