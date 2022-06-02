@@ -25,17 +25,13 @@ func WebSocket(chanID uint64, ch chan<- *model.RequestResults, totalNumber uint6
 	var (
 		i uint64
 	)
-	for {
-		select {
-		default:
-			// 请求
-			webSocketRequest(chanID, ch, i, request, ws)
-			// 结束条件
-			i = i + 1
-			if i >= totalNumber {
-				goto end
-			}
-		}
+
+	// 请求
+	webSocketRequest(chanID, ch, i, request, ws)
+	// 结束条件
+	i = i + 1
+	if i >= totalNumber {
+		goto end
 	}
 end:
 
