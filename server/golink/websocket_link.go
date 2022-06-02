@@ -12,11 +12,6 @@ import (
 	"go-stress-test/server/client"
 )
 
-const (
-	firstTime    = 1 * time.Second // 连接以后首次请求数据的时间
-	intervalTime = 1 * time.Second // 发送数据的时间间隔
-)
-
 // WebSocket webSocket go link
 func WebSocket(chanID uint64, ch chan<- *model.RequestResults, totalNumber uint64, wg *sync.WaitGroup,
 	request *model.Request, ws *client.WebSocket) {
@@ -30,12 +25,9 @@ func WebSocket(chanID uint64, ch chan<- *model.RequestResults, totalNumber uint6
 	var (
 		i uint64
 	)
-	// 暂停60秒
-	t := time.NewTimer(firstTime)
 	for {
 		select {
-		case <-t.C:
-			t.Reset(intervalTime)
+		default:
 			// 请求
 			webSocketRequest(chanID, ch, i, request, ws)
 			// 结束条件
@@ -46,7 +38,6 @@ func WebSocket(chanID uint64, ch chan<- *model.RequestResults, totalNumber uint6
 		}
 	}
 end:
-	t.Stop()
 
 	if request.Keepalive == true {
 		// 保持连接
